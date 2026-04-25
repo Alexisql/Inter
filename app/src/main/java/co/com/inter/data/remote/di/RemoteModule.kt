@@ -3,8 +3,12 @@ package co.com.inter.data.remote.di
 import android.content.Context
 import co.com.inter.BuildConfig.BASE_URL
 import co.com.inter.data.remote.repository.AppVersionRepositoryImpl
+import co.com.inter.data.remote.repository.LoginRepositoryImpl
+import co.com.inter.data.remote.repository.SaveUserRepositoryImpl
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.domain.repository.IAppVersionRepository
+import co.com.inter.domain.repository.ILoginRepository
+import co.com.inter.domain.repository.ISaveUserRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -71,4 +75,19 @@ object RemoteModule {
         dispatcherIO = dispatcherIO,
         interService = interService
     )
+
+    @Singleton
+    @Provides
+    fun providerLoginRepository(
+        interService: InterService,
+        dispatcherIO: CoroutineDispatcher
+    ): ILoginRepository = LoginRepositoryImpl(
+        dispatcherIO = dispatcherIO,
+        interService = interService
+    )
+
+    @Singleton
+    @Provides
+    fun providerSaveUserRepository(
+    ): ISaveUserRepository = SaveUserRepositoryImpl()
 }
