@@ -1,6 +1,7 @@
 package co.com.inter.data.remote.service
 
 import co.com.inter.data.remote.dto.LoginRequestDto
+import co.com.inter.data.remote.sync.dto.SchemeResponseDto
 import co.com.inter.data.remote.dto.UserResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -17,5 +18,10 @@ interface InterService {
         @HeaderMap headers: Map<String, String>,
         @Body request: LoginRequestDto
     ): UserResponseDto
+
+    @GET("apicontrollerpruebas/api/SincronizadorDatos/ObtenerEsquema/true")
+    suspend fun getScheme(
+        @HeaderMap headers: Map<String, String>
+    ): List<SchemeResponseDto>
 
 }

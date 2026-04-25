@@ -5,6 +5,8 @@ import co.com.inter.BuildConfig.BASE_URL
 import co.com.inter.data.remote.repository.AppVersionRepositoryImpl
 import co.com.inter.data.remote.repository.LoginRepositoryImpl
 import co.com.inter.data.remote.service.InterService
+import co.com.inter.data.remote.sync.datasource.ISchemeRemoteDataSource
+import co.com.inter.data.remote.sync.datasource.SchemeRemoteDataSourceImpl
 import co.com.inter.domain.repository.IAppVersionRepository
 import co.com.inter.domain.repository.ILoginRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -81,6 +83,14 @@ object RemoteModule {
         dispatcherIO: CoroutineDispatcher
     ): ILoginRepository = LoginRepositoryImpl(
         dispatcherIO = dispatcherIO,
+        interService = interService
+    )
+
+    @Singleton
+    @Provides
+    fun providerSchemeRemoteDataSource(
+        interService: InterService
+    ): ISchemeRemoteDataSource = SchemeRemoteDataSourceImpl(
         interService = interService
     )
 

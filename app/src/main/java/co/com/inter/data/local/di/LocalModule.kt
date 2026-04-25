@@ -5,6 +5,8 @@ import androidx.room.Room
 import co.com.inter.data.local.InterDataBase
 import co.com.inter.data.local.dao.InterDao
 import co.com.inter.data.local.repository.SaveUserRepositoryImpl
+import co.com.inter.data.local.sync.datasource.ISchemeLocalDataSource
+import co.com.inter.data.local.sync.datasource.SchemeLocalDataSourceImpl
 import co.com.inter.domain.repository.ISaveUserRepository
 import dagger.Module
 import dagger.Provides
@@ -26,8 +28,12 @@ object LocalModule {
     @Provides
     fun providerInterDao(dataBase: InterDataBase) = dataBase.getInterDao()
 
-
     @Singleton
     @Provides
     fun providerSaveUserRepository(dao: InterDao): ISaveUserRepository = SaveUserRepositoryImpl(dao)
+
+    @Singleton
+    @Provides
+    fun providerSchemeLocalDataSource(dao: InterDao): ISchemeLocalDataSource =
+        SchemeLocalDataSourceImpl(dao)
 }
