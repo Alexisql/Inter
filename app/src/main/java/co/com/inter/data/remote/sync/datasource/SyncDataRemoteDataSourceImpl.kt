@@ -7,9 +7,9 @@ import javax.inject.Inject
 
 private const val CLAZZ = "SchemeRepositoryImpl"
 
-class SchemeRemoteDataSourceImpl @Inject constructor(
+class SyncDataRemoteDataSourceImpl @Inject constructor(
     private val interService: InterService
-) : ISchemeRemoteDataSource {
+) : ISyncDataRemoteDataSource {
 
     override suspend fun getScheme(): Result<List<SchemeResponseDto>> {
         val headers = mapOf(

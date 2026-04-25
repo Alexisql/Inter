@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import co.com.inter.data.local.InterDataBase
 import co.com.inter.data.local.dao.InterDao
-import co.com.inter.data.local.repository.SaveUserRepositoryImpl
-import co.com.inter.data.local.sync.datasource.ISchemeLocalDataSource
-import co.com.inter.data.local.sync.datasource.SchemeLocalDataSourceImpl
-import co.com.inter.domain.repository.ISaveUserRepository
+import co.com.inter.data.local.login.datasource.ILoginLocalDataSource
+import co.com.inter.data.local.login.datasource.LoginLocalDataSourceImpl
+import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
+import co.com.inter.data.local.sync.datasource.SyncDataLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,10 +30,11 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun providerSaveUserRepository(dao: InterDao): ISaveUserRepository = SaveUserRepositoryImpl(dao)
+    fun providerLoginLocalDataSource(dao: InterDao): ILoginLocalDataSource =
+        LoginLocalDataSourceImpl(dao)
 
     @Singleton
     @Provides
-    fun providerSchemeLocalDataSource(dao: InterDao): ISchemeLocalDataSource =
-        SchemeLocalDataSourceImpl(dao)
+    fun providerSyncDataLocalDataSource(dao: InterDao): ISyncDataLocalDataSource =
+        SyncDataLocalDataSourceImpl(dao)
 }

@@ -2,13 +2,13 @@ package co.com.inter.data.remote.di
 
 import android.content.Context
 import co.com.inter.BuildConfig.BASE_URL
+import co.com.inter.data.remote.login.datasource.ILoginRemoteDataSource
+import co.com.inter.data.remote.login.datasource.LoginRemoteDataSourceImpl
 import co.com.inter.data.remote.repository.AppVersionRepositoryImpl
-import co.com.inter.data.remote.repository.LoginRepositoryImpl
 import co.com.inter.data.remote.service.InterService
-import co.com.inter.data.remote.sync.datasource.ISchemeRemoteDataSource
-import co.com.inter.data.remote.sync.datasource.SchemeRemoteDataSourceImpl
+import co.com.inter.data.remote.sync.datasource.ISyncDataRemoteDataSource
+import co.com.inter.data.remote.sync.datasource.SyncDataRemoteDataSourceImpl
 import co.com.inter.domain.repository.IAppVersionRepository
-import co.com.inter.domain.repository.ILoginRepository
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -78,19 +78,17 @@ object RemoteModule {
 
     @Singleton
     @Provides
-    fun providerLoginRepository(
-        interService: InterService,
-        dispatcherIO: CoroutineDispatcher
-    ): ILoginRepository = LoginRepositoryImpl(
-        dispatcherIO = dispatcherIO,
+    fun providerLoginRemoteDataSource(
+        interService: InterService
+    ): ILoginRemoteDataSource = LoginRemoteDataSourceImpl(
         interService = interService
     )
 
     @Singleton
     @Provides
-    fun providerSchemeRemoteDataSource(
+    fun providerSyncDataRemoteDataSource(
         interService: InterService
-    ): ISchemeRemoteDataSource = SchemeRemoteDataSourceImpl(
+    ): ISyncDataRemoteDataSource = SyncDataRemoteDataSourceImpl(
         interService = interService
     )
 

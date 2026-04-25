@@ -4,7 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import co.com.inter.data.local.sync.entity.SchemeEntity
-import co.com.inter.data.local.entity.UserEntity
+import co.com.inter.data.local.login.entity.UserEntity
 
 @Dao
 interface InterDao {

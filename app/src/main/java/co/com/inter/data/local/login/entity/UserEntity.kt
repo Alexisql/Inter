@@ -1,4 +1,4 @@
-package co.com.inter.data.local.entity
+package co.com.inter.data.local.login.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
