@@ -11,4 +11,4 @@ data class UserResponseDto(
     @SerialName("Nombre") val name: String?
 )
 
-fun UserResponseDto.toDomain() = User(user, identification, name)
+fun UserResponseDto.toDomain() = User(identification, user, name)

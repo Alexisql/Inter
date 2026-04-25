@@ -62,6 +62,10 @@ dependencies {
     implementation(libs.serialization)
     implementation(libs.serialization.conver)
 
+    //Room
+    implementation(libs.room)
+    ksp(libs.room.compiler)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
