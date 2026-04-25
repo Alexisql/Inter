@@ -1,28 +1,24 @@
-package co.com.inter.data.remote.repository
+package co.com.inter.data.repository
 
 import android.content.Context
 import androidx.core.content.pm.PackageInfoCompat
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.util.safeApiCall
-import co.com.inter.domain.repository.IAppVersionRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.withContext
+import co.com.inter.domain.repository.ICheckAppVersionRepository
 import javax.inject.Inject
 
 private const val CLAZZ = "AppVersionRepositoryImpl"
 
-class AppVersionRepositoryImpl @Inject constructor(
+class CheckAppVersionRepositoryImpl @Inject constructor(
     private val context: Context,
-    private val dispatcherIO: CoroutineDispatcher,
     private val interService: InterService
-) : IAppVersionRepository {
+) : ICheckAppVersionRepository {
 
-    override suspend fun getRemoteAppVersion(): Result<Int> =
-        withContext(dispatcherIO) {
-            safeApiCall(CLAZZ) {
-                interService.getRemoteAppVersion().toInt()
-            }
+    override suspend fun getRemoteAppVersion(): Result<Int> {
+        return safeApiCall(CLAZZ) {
+            interService.getRemoteAppVersion().toInt()
         }
+    }
 
     override fun getLocalAppVersion(): Int {
         val packageInfo = context.packageManager
