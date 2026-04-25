@@ -1,10 +1,7 @@
 package co.com.inter.domain.usecase
 
 import co.com.inter.domain.model.CheckVersionState
-import co.com.inter.domain.model.InitializationEvent
-import co.com.inter.domain.model.InitializationResult
-import kotlinx.coroutines.async
-import kotlinx.coroutines.supervisorScope
+import co.com.inter.domain.model.InitializationState
 import javax.inject.Inject
 
 class InitializationUseCase @Inject constructor(
@@ -12,31 +9,29 @@ class InitializationUseCase @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val syncDataUseCase: SyncDataUseCase
 ) {
-    suspend operator fun invoke(): InitializationResult = supervisorScope {
-        try {
-            val events = mutableListOf<InitializationEvent>()
-
-            val checkVersion = async { checkVersionUseCase() }.await()
-            async { loginUseCase() }.await()
-            async { syncDataUseCase() }.await()
-
-            checkVersion.onSuccess { checkVersionState ->
-                when (checkVersionState) {
-                    CheckVersionState.Lower -> {
-                        events.add(InitializationEvent.LowerApp)
+    suspend operator fun invoke(): Result<InitializationState> {
+        return checkVersionUseCase().fold(
+            onSuccess = { version ->
+                when (version) {
+                    CheckVersionState.Lower -> Result.success(InitializationState.LowerApp)
+                    CheckVersionState.Upper -> Result.success(InitializationState.UpperApp)
+                    CheckVersionState.Updated -> {
+                        loginUseCase().fold(
+                            onSuccess = {
+                                syncDataUseCase().map {
+                                    InitializationState.Success
+                                }
+                            },
+                            onFailure = {
+                                Result.failure(it)
+                            }
+                        )
                     }
-
-                    CheckVersionState.Upper -> {
-                        events.add(InitializationEvent.UpperApp)
-                    }
-
-                    else -> Unit
                 }
+            },
+            onFailure = {
+                Result.failure(it)
             }
-
-            InitializationResult(events)
-        } catch (exception: Exception) {
-            InitializationResult(mutableListOf(InitializationEvent.Error(exception)))
-        }
+        )
     }
 }

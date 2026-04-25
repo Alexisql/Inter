@@ -17,7 +17,7 @@ android {
         applicationId = "co.com.inter"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
+        versionCode = 100
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -52,6 +52,7 @@ android {
 dependencies {
     //Hilt
     implementation(libs.hilt)
+    implementation(libs.hilt.navigation)
     ksp(libs.hilt.compiler)
 
     //Retrofit
@@ -65,6 +66,9 @@ dependencies {
     //Room
     implementation(libs.room)
     ksp(libs.room.compiler)
+
+    //Navigation
+    implementation(libs.navigation.compose)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

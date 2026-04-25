@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Inter</string>
+    <string name="title_app_upper">App Upper</string>
+    <string name="message_app_upper">The application has a higher version</string>
+    <string name="title_app_lower">App Lower</string>
+    <string name="message_app_lower">The application has an older version</string>
+    <string name="label_empty_list">Empty List</string>
 </resources>

@@ -20,6 +20,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 
 @Module
@@ -28,38 +30,51 @@ object AppModule {
 
     @Singleton
     @Provides
+    fun provideDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
+    }
+
+    @Singleton
+    @Provides
     fun providerCheckAppVersionRepository(
         @ApplicationContext context: Context,
-        interService: InterService
+        interService: InterService,
+        dispatcherIO: CoroutineDispatcher
     ): ICheckAppVersionRepository = CheckAppVersionRepositoryImpl(
         context = context,
-        interService = interService
+        interService = interService,
+        dispatcherIO = dispatcherIO
     )
 
     @Singleton
     @Provides
     fun providerLoginRepository(
         local: ILoginLocalDataSource,
-        remote: ILoginRemoteDataSource
+        remote: ILoginRemoteDataSource,
+        dispatcherIO: CoroutineDispatcher
     ): ILoginRepository = LoginRepositoryImpl(
         local = local,
-        remote = remote
+        remote = remote,
+        dispatcherIO = dispatcherIO
     )
 
     @Singleton
     @Provides
     fun providerSyncDataRepository(
         local: ISyncDataLocalDataSource,
-        remote: ISyncDataRemoteDataSource
+        remote: ISyncDataRemoteDataSource,
+        dispatcherIO: CoroutineDispatcher
     ): ISyncDataRepository = SyncDataRepositoryImpl(
         local = local,
-        remote = remote
+        remote = remote,
+        dispatcherIO = dispatcherIO
     )
 
     @Singleton
     @Provides
     fun providerLocationRepository(
-        remote: ILocationRemoteDataSource
-    ): ILocationRepository = LocationRepositoryImpl(remote = remote)
+        remote: ILocationRemoteDataSource,
+        dispatcherIO: CoroutineDispatcher
+    ): ILocationRepository = LocationRepositoryImpl(remote = remote, dispatcherIO = dispatcherIO)
 
 }
