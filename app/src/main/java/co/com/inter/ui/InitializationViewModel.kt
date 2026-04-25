@@ -3,7 +3,7 @@ package co.com.inter.ui
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import co.com.inter.domain.model.InitEvent
+import co.com.inter.domain.model.InitializationEvent
 import co.com.inter.domain.usecase.InitializationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -19,15 +19,15 @@ class InitializationViewModel @Inject constructor(
             val response = initializationUseCase.invoke()
             response.events.forEach { event ->
                 when (event) {
-                    InitEvent.UpperApp -> {
+                    InitializationEvent.UpperApp -> {
                         Log.e("TAG", "UpperApp")
                     }
 
-                    InitEvent.LowerApp -> {
+                    InitializationEvent.LowerApp -> {
                         Log.e("TAG", "LowerApp")
                     }
 
-                    is InitEvent.Error -> {
+                    is InitializationEvent.Error -> {
                         Log.e("TAG", "Error")
                     }
                 }

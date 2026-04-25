@@ -1,6 +1,8 @@
 package co.com.inter.data.remote.di
 
 import co.com.inter.BuildConfig.BASE_URL
+import co.com.inter.data.remote.location.datasource.ILocationRemoteDataSource
+import co.com.inter.data.remote.location.datasource.LocationRemoteDataSourceImpl
 import co.com.inter.data.remote.login.datasource.ILoginRemoteDataSource
 import co.com.inter.data.remote.login.datasource.LoginRemoteDataSourceImpl
 import co.com.inter.data.remote.service.InterService
@@ -65,6 +67,14 @@ object RemoteModule {
     fun providerSyncDataRemoteDataSource(
         interService: InterService
     ): ISyncDataRemoteDataSource = SyncDataRemoteDataSourceImpl(
+        interService = interService
+    )
+
+    @Singleton
+    @Provides
+    fun providerLocationRemoteDataSource(
+        interService: InterService
+    ): ILocationRemoteDataSource = LocationRemoteDataSourceImpl(
         interService = interService
     )
 

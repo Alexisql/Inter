@@ -1,8 +1,8 @@
 package co.com.inter.domain.usecase
 
 import co.com.inter.domain.model.CheckVersionState
-import co.com.inter.domain.model.InitEvent
-import co.com.inter.domain.model.InitResult
+import co.com.inter.domain.model.InitializationEvent
+import co.com.inter.domain.model.InitializationResult
 import kotlinx.coroutines.async
 import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
@@ -12,9 +12,9 @@ class InitializationUseCase @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val syncDataUseCase: SyncDataUseCase
 ) {
-    suspend operator fun invoke(): InitResult = supervisorScope {
+    suspend operator fun invoke(): InitializationResult = supervisorScope {
         try {
-            val events = mutableListOf<InitEvent>()
+            val events = mutableListOf<InitializationEvent>()
 
             val checkVersion = async { checkVersionUseCase() }.await()
             async { loginUseCase() }.await()
@@ -23,20 +23,20 @@ class InitializationUseCase @Inject constructor(
             checkVersion.onSuccess { checkVersionState ->
                 when (checkVersionState) {
                     CheckVersionState.Lower -> {
-                        events.add(InitEvent.LowerApp)
+                        events.add(InitializationEvent.LowerApp)
                     }
 
                     CheckVersionState.Upper -> {
-                        events.add(InitEvent.UpperApp)
+                        events.add(InitializationEvent.UpperApp)
                     }
 
                     else -> Unit
                 }
             }
 
-            InitResult(events)
+            InitializationResult(events)
         } catch (exception: Exception) {
-            InitResult(mutableListOf(InitEvent.Error(exception)))
+            InitializationResult(mutableListOf(InitializationEvent.Error(exception)))
         }
     }
 }

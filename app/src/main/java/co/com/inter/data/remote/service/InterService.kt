@@ -1,8 +1,9 @@
 package co.com.inter.data.remote.service
 
+import co.com.inter.data.remote.location.dto.LocationRemoteDto
 import co.com.inter.data.remote.login.dto.LoginRequestDto
-import co.com.inter.data.remote.sync.dto.SchemeResponseDto
 import co.com.inter.data.remote.login.dto.UserResponseDto
+import co.com.inter.data.remote.sync.dto.SchemeResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.HeaderMap
@@ -23,5 +24,8 @@ interface InterService {
     suspend fun getScheme(
         @HeaderMap headers: Map<String, String>
     ): List<SchemeResponseDto>
+
+    @GET("apicontrollerpruebas/api/ParametrosFramework/ObtenerLocalidadesRecogidas")
+    suspend fun getLocations(): List<LocationRemoteDto>
 
 }

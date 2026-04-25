@@ -3,13 +3,16 @@ package co.com.inter.di
 import android.content.Context
 import co.com.inter.data.local.login.datasource.ILoginLocalDataSource
 import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
+import co.com.inter.data.remote.location.datasource.ILocationRemoteDataSource
 import co.com.inter.data.remote.login.datasource.ILoginRemoteDataSource
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.sync.datasource.ISyncDataRemoteDataSource
 import co.com.inter.data.repository.CheckAppVersionRepositoryImpl
+import co.com.inter.data.repository.LocationRepositoryImpl
 import co.com.inter.data.repository.LoginRepositoryImpl
 import co.com.inter.data.repository.SyncDataRepositoryImpl
 import co.com.inter.domain.repository.ICheckAppVersionRepository
+import co.com.inter.domain.repository.ILocationRepository
 import co.com.inter.domain.repository.ILoginRepository
 import co.com.inter.domain.repository.ISyncDataRepository
 import dagger.Module
@@ -52,5 +55,11 @@ object AppModule {
         local = local,
         remote = remote
     )
+
+    @Singleton
+    @Provides
+    fun providerLocationRepository(
+        remote: ILocationRemoteDataSource
+    ): ILocationRepository = LocationRepositoryImpl(remote = remote)
 
 }
