@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -14,7 +17,7 @@ android {
         applicationId = "co.com.inter"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
+        versionCode = 100
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -27,6 +30,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("String", "BASE_URL", "\"https://apitesting.interrapidisimo.co/\"")
+        }
+        debug {
+            buildConfigField("String", "BASE_URL", "\"https://apitesting.interrapidisimo.co/\"")
         }
     }
     compileOptions {
@@ -38,10 +45,36 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
 dependencies {
+    //Hilt
+    implementation(libs.hilt)
+    implementation(libs.hilt.navigation)
+    ksp(libs.hilt.compiler)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.okhttp)
+
+    //Serialization
+    implementation(libs.serialization)
+    implementation(libs.serialization.conver)
+
+    //Room
+    implementation(libs.room)
+    implementation(libs.room.paging)
+    ksp(libs.room.compiler)
+
+    //Navigation
+    implementation(libs.navigation.compose)
+
+    //Paging
+    implementation(libs.paging)
+    implementation(libs.paging.compose)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
