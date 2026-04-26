@@ -1,6 +1,6 @@
 package co.com.inter.data.remote.sync.dto
 
-import co.com.inter.data.local.sync.entity.SchemeEntity
+import co.com.inter.domain.model.Table
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -17,7 +17,7 @@ data class SchemeResponseDto(
     @SerialName("QueryCreacion") val creationQuery: String
 )
 
-fun SchemeResponseDto.toEntity() = SchemeEntity(
+fun SchemeResponseDto.toDomain() = Table(
     batchSize = batchSize,
     error = error,
     dateUpdated = dateUpdated,

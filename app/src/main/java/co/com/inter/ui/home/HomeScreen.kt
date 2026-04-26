@@ -43,6 +43,7 @@ import co.com.inter.domain.model.User
 import co.com.inter.ui.component.ErrorDialog
 import co.com.inter.ui.component.LocalErrorHandler
 import co.com.inter.ui.home.contract.HomeEffect
+import co.com.inter.ui.home.contract.HomeIntent
 import co.com.inter.ui.navigation.route.Route
 import co.com.inter.ui.util.ResultState
 
@@ -61,19 +62,26 @@ fun HomeScreen(
                     errorHandler.showError(ErrorDialog(effect.message))
                 }
 
-                is HomeEffect.OnNavigate -> {
-                    navController.navigate(Route.Home.route)
+                is HomeEffect.NavigateToTables -> {
+                    navController.navigate(Route.Table.route)
+                }
+
+                HomeEffect.NavigateToLocations -> {
+                    navController.navigate(Route.Location.route)
                 }
             }
         }
     }
 
-    HomeContent(state)
+    HomeContent(state) {
+        homeViewModel.onIntent(it)
+    }
 }
 
 @Composable
 private fun HomeContent(
-    state: ResultState<User>
+    state: ResultState<User>,
+    onIntent: (HomeIntent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier,
@@ -87,16 +95,16 @@ private fun HomeContent(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = { },
+                    onClick = { onIntent(HomeIntent.NavigateToTables) },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(stringResource(R.string.label_button_table))
+                    Text(stringResource(R.string.label_table))
                 }
                 Button(
-                    onClick = { },
+                    onClick = { onIntent(HomeIntent.NavigateToLocations) },
                     modifier = Modifier.weight(1f)
                 ) {
-                    Text(stringResource(R.string.label_button_location))
+                    Text(stringResource(R.string.label_location))
                 }
             }
         }
@@ -173,5 +181,5 @@ private fun HomeContent(
 @Preview(showBackground = true)
 @Composable
 private fun HomeContentPreview() {
-    HomeContent(ResultState.Loading)
+    HomeContent(ResultState.Loading){}
 }

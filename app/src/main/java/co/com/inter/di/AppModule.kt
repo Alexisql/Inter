@@ -1,7 +1,7 @@
 package co.com.inter.di
 
 import android.content.Context
-import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
+import co.com.inter.data.local.table.datasource.ITableDataLocalDataSource
 import co.com.inter.data.local.user.datasource.IUserLocalDataSource
 import co.com.inter.data.remote.auth.datasource.IAuthRemoteDataSource
 import co.com.inter.data.remote.location.datasource.ILocationRemoteDataSource
@@ -10,11 +10,13 @@ import co.com.inter.data.remote.sync.datasource.ISyncDataRemoteDataSource
 import co.com.inter.data.repository.AuthRepositoryImpl
 import co.com.inter.data.repository.CheckAppVersionRepositoryImpl
 import co.com.inter.data.repository.LocationRepositoryImpl
+import co.com.inter.data.repository.TableRepositoryImpl
 import co.com.inter.data.repository.SyncDataRepositoryImpl
 import co.com.inter.data.repository.UserRepositoryImpl
 import co.com.inter.domain.repository.IAuthRepository
 import co.com.inter.domain.repository.ICheckAppVersionRepository
 import co.com.inter.domain.repository.ILocationRepository
+import co.com.inter.domain.repository.ITableRepository
 import co.com.inter.domain.repository.ISyncDataRepository
 import co.com.inter.domain.repository.IUserRepository
 import dagger.Module
@@ -61,11 +63,9 @@ object AppModule {
     @Singleton
     @Provides
     fun providerSyncDataRepository(
-        local: ISyncDataLocalDataSource,
         remote: ISyncDataRemoteDataSource,
         dispatcherIO: CoroutineDispatcher
     ): ISyncDataRepository = SyncDataRepositoryImpl(
-        local = local,
         remote = remote,
         dispatcherIO = dispatcherIO
     )
@@ -83,5 +83,12 @@ object AppModule {
         local: IUserLocalDataSource,
         dispatcherIO: CoroutineDispatcher
     ): IUserRepository = UserRepositoryImpl(local = local, dispatcherIO = dispatcherIO)
+
+    @Singleton
+    @Provides
+    fun providerTableRepository(
+        local: ITableDataLocalDataSource,
+        dispatcherIO: CoroutineDispatcher
+    ): ITableRepository = TableRepositoryImpl(local = local, dispatcherIO = dispatcherIO)
 
 }

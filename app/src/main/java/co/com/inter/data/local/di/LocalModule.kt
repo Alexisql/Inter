@@ -6,8 +6,8 @@ import co.com.inter.data.local.InterDataBase
 import co.com.inter.data.local.dao.InterDao
 import co.com.inter.data.local.user.datasource.IUserLocalDataSource
 import co.com.inter.data.local.user.datasource.UserLocalDataSourceImpl
-import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
-import co.com.inter.data.local.sync.datasource.SyncDataLocalDataSourceImpl
+import co.com.inter.data.local.table.datasource.ITableDataLocalDataSource
+import co.com.inter.data.local.table.datasource.TableDataLocalDataSourceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,6 +35,6 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun providerSyncDataLocalDataSource(dao: InterDao): ISyncDataLocalDataSource =
-        SyncDataLocalDataSourceImpl(dao)
+    fun providerTableDataLocalDataSource(dao: InterDao): ITableDataLocalDataSource =
+        TableDataLocalDataSourceImpl(dao)
 }

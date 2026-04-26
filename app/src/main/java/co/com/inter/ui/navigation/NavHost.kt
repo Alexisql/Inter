@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import co.com.inter.ui.home.HomeScreen
 import co.com.inter.ui.navigation.route.Route
 import co.com.inter.ui.splash.SplashScreen
+import co.com.inter.ui.table.TableScreen
 
 @Composable
 fun Navigation(
@@ -23,6 +24,12 @@ fun Navigation(
         }
         composable(Route.Home.route) {
             HomeScreen(
+                navController = navController
+            )
+        }
+
+        composable(Route.Table.route) {
+            TableScreen(
                 navController = navController
             )
         }
