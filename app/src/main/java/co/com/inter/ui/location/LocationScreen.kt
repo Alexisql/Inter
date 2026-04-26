@@ -25,6 +25,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +39,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import co.com.inter.R
 import co.com.inter.domain.model.Location
+import co.com.inter.ui.component.ErrorDialog
+import co.com.inter.ui.component.LocalErrorHandler
 import co.com.inter.ui.component.TopAppBarComponent
+import co.com.inter.ui.location.contract.LocationEffect
+import co.com.inter.ui.location.contract.LocationIntent
 import co.com.inter.ui.util.ResultState
 
 @Composable
@@ -47,16 +52,31 @@ fun LocationScreen(
     navController: NavHostController
 ) {
     val state by locationViewModel.uiState.collectAsStateWithLifecycle()
+    val errorHandler = LocalErrorHandler.current
+
+    LaunchedEffect(Unit) {
+        locationViewModel.effects.collect { effect ->
+            when (effect) {
+                is LocationEffect.ShowError -> {
+                    errorHandler.showError(ErrorDialog(effect.message))
+                }
+
+                is LocationEffect.OnBack -> {
+                    navController.popBackStack()
+                }
+            }
+        }
+    }
 
     LocationContent(state) {
-        navController.popBackStack()
+        locationViewModel.onIntent(it)
     }
 }
 
 @Composable
 private fun LocationContent(
     state: ResultState<List<Location>>,
-    onBack: () -> Unit
+    onIntent: (LocationIntent) -> Unit
 ) {
     Scaffold(
         modifier = Modifier,
@@ -64,7 +84,7 @@ private fun LocationContent(
             TopAppBarComponent(
                 title = stringResource(R.string.label_location),
                 navigationIcon = R.drawable.ic_arrow_left
-            ) { onBack() }
+            ) { onIntent(LocationIntent.OnBack) }
         }
     ) { paddingValues ->
 
