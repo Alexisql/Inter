@@ -1,4 +1,4 @@
-package co.com.inter.data.remote.login.dto
+package co.com.inter.data.remote.auth.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

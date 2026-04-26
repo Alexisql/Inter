@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import co.com.inter.data.local.InterDataBase
 import co.com.inter.data.local.dao.InterDao
-import co.com.inter.data.local.login.datasource.ILoginLocalDataSource
-import co.com.inter.data.local.login.datasource.LoginLocalDataSourceImpl
+import co.com.inter.data.local.user.datasource.IUserLocalDataSource
+import co.com.inter.data.local.user.datasource.UserLocalDataSourceImpl
 import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
 import co.com.inter.data.local.sync.datasource.SyncDataLocalDataSourceImpl
 import dagger.Module
@@ -30,8 +30,8 @@ object LocalModule {
 
     @Singleton
     @Provides
-    fun providerLoginLocalDataSource(dao: InterDao): ILoginLocalDataSource =
-        LoginLocalDataSourceImpl(dao)
+    fun providerUserDataSource(dao: InterDao): IUserLocalDataSource =
+        UserLocalDataSourceImpl(dao)
 
     @Singleton
     @Provides

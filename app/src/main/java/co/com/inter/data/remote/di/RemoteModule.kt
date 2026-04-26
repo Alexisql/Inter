@@ -3,8 +3,8 @@ package co.com.inter.data.remote.di
 import co.com.inter.BuildConfig.BASE_URL
 import co.com.inter.data.remote.location.datasource.ILocationRemoteDataSource
 import co.com.inter.data.remote.location.datasource.LocationRemoteDataSourceImpl
-import co.com.inter.data.remote.login.datasource.ILoginRemoteDataSource
-import co.com.inter.data.remote.login.datasource.LoginRemoteDataSourceImpl
+import co.com.inter.data.remote.auth.datasource.IAuthRemoteDataSource
+import co.com.inter.data.remote.auth.datasource.AuthRemoteDataSourceImpl
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.sync.datasource.ISyncDataRemoteDataSource
 import co.com.inter.data.remote.sync.datasource.SyncDataRemoteDataSourceImpl
@@ -58,7 +58,7 @@ object RemoteModule {
     @Provides
     fun providerLoginRemoteDataSource(
         interService: InterService
-    ): ILoginRemoteDataSource = LoginRemoteDataSourceImpl(
+    ): IAuthRemoteDataSource = AuthRemoteDataSourceImpl(
         interService = interService
     )
 

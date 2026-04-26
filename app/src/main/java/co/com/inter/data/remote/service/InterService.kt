@@ -1,8 +1,8 @@
 package co.com.inter.data.remote.service
 
 import co.com.inter.data.remote.location.dto.LocationRemoteDto
-import co.com.inter.data.remote.login.dto.LoginRequestDto
-import co.com.inter.data.remote.login.dto.UserResponseDto
+import co.com.inter.data.remote.auth.dto.LoginRequestDto
+import co.com.inter.data.remote.auth.dto.UserResponseDto
 import co.com.inter.data.remote.sync.dto.SchemeResponseDto
 import retrofit2.http.Body
 import retrofit2.http.GET

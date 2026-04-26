@@ -1,7 +1,8 @@
-package co.com.inter.data.local.login.entity
+package co.com.inter.data.local.user.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import co.com.inter.domain.model.User
 
 @Entity(tableName = "user")
 data class UserEntity(
@@ -10,4 +11,10 @@ data class UserEntity(
     val id: String?,
     val user: String,
     val name: String?
+)
+
+fun UserEntity.toDomain() = User(
+    id = id,
+    user = user,
+    name = name
 )

@@ -28,7 +28,6 @@ class SplashViewModel @Inject constructor(
                     emitEffect(SplashEffect.OnNavigate)
                 }
             }.onFailure { exception ->
-                updateState(ResultState.Idle)
                 emitEffect(SplashEffect.ShowError(exception.message))
             }
         }

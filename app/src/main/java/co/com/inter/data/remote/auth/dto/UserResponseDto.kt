@@ -1,6 +1,6 @@
-package co.com.inter.data.remote.login.dto
+package co.com.inter.data.remote.auth.dto
 
-import co.com.inter.data.local.login.entity.UserEntity
+import co.com.inter.domain.model.User
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,7 +11,7 @@ data class UserResponseDto(
     @SerialName("Nombre") val name: String?
 )
 
-fun UserResponseDto.toEntity() = UserEntity(
+fun UserResponseDto.toDomain() = User(
     id = identification,
     user = user,
     name = name

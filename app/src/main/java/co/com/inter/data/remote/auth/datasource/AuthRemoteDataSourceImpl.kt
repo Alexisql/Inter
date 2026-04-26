@@ -1,16 +1,16 @@
-package co.com.inter.data.remote.login.datasource
+package co.com.inter.data.remote.auth.datasource
 
-import co.com.inter.data.remote.login.dto.LoginRequestDto
-import co.com.inter.data.remote.login.dto.UserResponseDto
+import co.com.inter.data.remote.auth.dto.LoginRequestDto
+import co.com.inter.data.remote.auth.dto.UserResponseDto
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.util.safeApiCall
 import javax.inject.Inject
 
 private const val CLAZZ = "LoginRepositoryImpl"
 
-class LoginRemoteDataSourceImpl @Inject constructor(
+class AuthRemoteDataSourceImpl @Inject constructor(
     private val interService: InterService
-) : ILoginRemoteDataSource {
+) : IAuthRemoteDataSource {
 
     override suspend fun login(): Result<UserResponseDto> {
         val user = "pam.meredy21"

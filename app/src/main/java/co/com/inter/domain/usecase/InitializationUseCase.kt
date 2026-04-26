@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class InitializationUseCase @Inject constructor(
     private val checkVersionUseCase: CheckAppVersionUseCase,
-    private val loginUseCase: LoginUseCase,
+    private val authUseCase: AuthUseCase,
     private val syncDataUseCase: SyncDataUseCase
 ) {
     suspend operator fun invoke(): Result<InitializationState> {
@@ -16,7 +16,7 @@ class InitializationUseCase @Inject constructor(
                     CheckVersionState.Lower -> Result.success(InitializationState.LowerApp)
                     CheckVersionState.Upper -> Result.success(InitializationState.UpperApp)
                     CheckVersionState.Updated -> {
-                        loginUseCase().fold(
+                        authUseCase().fold(
                             onSuccess = {
                                 syncDataUseCase().map {
                                     InitializationState.Success

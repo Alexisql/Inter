@@ -1,20 +1,22 @@
 package co.com.inter.di
 
 import android.content.Context
-import co.com.inter.data.local.login.datasource.ILoginLocalDataSource
 import co.com.inter.data.local.sync.datasource.ISyncDataLocalDataSource
+import co.com.inter.data.local.user.datasource.IUserLocalDataSource
+import co.com.inter.data.remote.auth.datasource.IAuthRemoteDataSource
 import co.com.inter.data.remote.location.datasource.ILocationRemoteDataSource
-import co.com.inter.data.remote.login.datasource.ILoginRemoteDataSource
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.sync.datasource.ISyncDataRemoteDataSource
+import co.com.inter.data.repository.AuthRepositoryImpl
 import co.com.inter.data.repository.CheckAppVersionRepositoryImpl
 import co.com.inter.data.repository.LocationRepositoryImpl
-import co.com.inter.data.repository.LoginRepositoryImpl
 import co.com.inter.data.repository.SyncDataRepositoryImpl
+import co.com.inter.data.repository.UserRepositoryImpl
+import co.com.inter.domain.repository.IAuthRepository
 import co.com.inter.domain.repository.ICheckAppVersionRepository
 import co.com.inter.domain.repository.ILocationRepository
-import co.com.inter.domain.repository.ILoginRepository
 import co.com.inter.domain.repository.ISyncDataRepository
+import co.com.inter.domain.repository.IUserRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -49,11 +51,9 @@ object AppModule {
     @Singleton
     @Provides
     fun providerLoginRepository(
-        local: ILoginLocalDataSource,
-        remote: ILoginRemoteDataSource,
+        remote: IAuthRemoteDataSource,
         dispatcherIO: CoroutineDispatcher
-    ): ILoginRepository = LoginRepositoryImpl(
-        local = local,
+    ): IAuthRepository = AuthRepositoryImpl(
         remote = remote,
         dispatcherIO = dispatcherIO
     )
@@ -76,5 +76,12 @@ object AppModule {
         remote: ILocationRemoteDataSource,
         dispatcherIO: CoroutineDispatcher
     ): ILocationRepository = LocationRepositoryImpl(remote = remote, dispatcherIO = dispatcherIO)
+
+    @Singleton
+    @Provides
+    fun providerUserRepository(
+        local: IUserLocalDataSource,
+        dispatcherIO: CoroutineDispatcher
+    ): IUserRepository = UserRepositoryImpl(local = local, dispatcherIO = dispatcherIO)
 
 }
