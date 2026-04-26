@@ -1,9 +1,9 @@
-package co.com.inter.ui.splash
+package co.com.inter.ui.initialization
 
 import androidx.lifecycle.viewModelScope
 import co.com.inter.domain.model.InitializationState
 import co.com.inter.domain.usecase.InitializationUseCase
-import co.com.inter.ui.splash.contract.SplashEffect
+import co.com.inter.ui.initialization.contract.InitializationEffect
 import co.com.inter.ui.util.BaseViewModel
 import co.com.inter.ui.util.ResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,9 +11,9 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SplashViewModel @Inject constructor(
+class InitializationViewModel @Inject constructor(
     private val initializationUseCase: InitializationUseCase
-) : BaseViewModel<ResultState<InitializationState>, SplashEffect>(ResultState.Idle) {
+) : BaseViewModel<ResultState<InitializationState>, InitializationEffect>(ResultState.Idle) {
 
     init {
         initApp()
@@ -25,10 +25,10 @@ class SplashViewModel @Inject constructor(
             initializationUseCase().onSuccess { state ->
                 updateState(ResultState.Success(state))
                 if (state == InitializationState.Success) {
-                    emitEffect(SplashEffect.OnNavigate)
+                    emitEffect(InitializationEffect.OnNavigate)
                 }
             }.onFailure { exception ->
-                emitEffect(SplashEffect.ShowError(exception.message))
+                emitEffect(InitializationEffect.ShowError(exception.message))
             }
         }
     }

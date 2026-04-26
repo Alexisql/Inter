@@ -1,4 +1,4 @@
-package co.com.inter.ui.splash
+package co.com.inter.ui.initialization
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -26,40 +26,44 @@ import co.com.inter.ui.component.ErrorDialog
 import co.com.inter.ui.component.ErrorHandler
 import co.com.inter.ui.component.LocalErrorHandler
 import co.com.inter.ui.component.SpacerComponent
+import co.com.inter.ui.initialization.contract.InitializationEffect
 import co.com.inter.ui.navigation.route.Route
-import co.com.inter.ui.splash.contract.SplashEffect
 import co.com.inter.ui.util.ResultState
 
 @Composable
-fun SplashScreen(
-    splashViewModel: SplashViewModel = hiltViewModel(),
+fun InitializationScreen(
+    initializationViewModel: InitializationViewModel = hiltViewModel(),
     navController: NavHostController
 ) {
-    val state by splashViewModel.uiState.collectAsStateWithLifecycle()
+    val state by initializationViewModel.uiState.collectAsStateWithLifecycle()
     val errorHandler = LocalErrorHandler.current
 
     LaunchedEffect(Unit) {
-        splashViewModel.effects.collect { effect ->
+        initializationViewModel.effects.collect { effect ->
             when (effect) {
-                is SplashEffect.ShowError -> {
+                is InitializationEffect.ShowError -> {
                     errorHandler.showError(ErrorDialog(effect.message))
                 }
 
-                is SplashEffect.OnNavigate -> {
-                    navController.navigate(Route.Home.route)
+                is InitializationEffect.OnNavigate -> {
+                    navController.navigate(Route.Home.route) {
+                        popUpTo(Route.Initialization.route) {
+                            inclusive = true
+                        }
+                    }
                 }
             }
         }
     }
 
-    HomeContent(
+    InitializationContent(
         state = state,
         errorHandler = errorHandler
     )
 }
 
 @Composable
-private fun HomeContent(
+private fun InitializationContent(
     state: ResultState<InitializationState>,
     errorHandler: ErrorHandler
 ) {
@@ -114,6 +118,6 @@ private fun HomeContent(
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeContentPreview() {
-    HomeContent(ResultState.Loading, ErrorHandler())
+private fun InitializationContentPreview() {
+    InitializationContent(ResultState.Loading, ErrorHandler())
 }
