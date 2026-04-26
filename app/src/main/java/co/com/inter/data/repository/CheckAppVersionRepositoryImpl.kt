@@ -5,6 +5,7 @@ import androidx.core.content.pm.PackageInfoCompat
 import co.com.inter.data.remote.service.InterService
 import co.com.inter.data.remote.util.safeApiCall
 import co.com.inter.domain.repository.ICheckAppVersionRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -12,7 +13,7 @@ import javax.inject.Inject
 private const val CLAZZ = "AppVersionRepositoryImpl"
 
 class CheckAppVersionRepositoryImpl @Inject constructor(
-    private val context: Context,
+    @ApplicationContext private val context: Context,
     private val interService: InterService,
     private val dispatcherIO: CoroutineDispatcher
 ) : ICheckAppVersionRepository {
