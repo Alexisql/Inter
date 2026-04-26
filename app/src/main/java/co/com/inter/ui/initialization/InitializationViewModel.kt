@@ -28,6 +28,7 @@ class InitializationViewModel @Inject constructor(
                     emitEffect(InitializationEffect.OnNavigate)
                 }
             }.onFailure { exception ->
+                updateState(ResultState.Idle)
                 emitEffect(InitializationEffect.ShowError(exception.message))
             }
         }
